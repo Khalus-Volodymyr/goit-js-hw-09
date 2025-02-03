@@ -70,23 +70,20 @@ const images = [
 const galleryElem = document.querySelector('.gallery');
 
 if (galleryElem) {
-  images.forEach(image => {
-    galleryElem.insertAdjacentHTML(
-      'beforeend',
-      `<li class="gallery-item">
-        <a class="gallery-link" href="${image.original}">
-          <img
-            class="gallery-image"
-            src="${image.preview}"
-            data-source="${image.original}"
-            alt="${image.description}"
-          />
-        </a>
-      </li>`
-    );
-  });
+  const galleryMarkup = images
+    .map(
+      ({ preview, original, description }) => `
+        <li class="gallery-item">
+          <a class="gallery-link" href="${original}">
+            <img class="gallery-image" src="${preview}" alt="${description}" />
+          </a>
+        </li>`
+    )
+    .join('');
 
-  const lightbox = new SimpleLightbox('.gallery a', {
+  galleryElem.innerHTML = galleryMarkup;
+
+  new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionPosition: 'bottom',
     captionDelay: 250,
